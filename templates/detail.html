@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>코드 질문 게시판</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #222;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        li, ul, a {
+            list-style: none;
+            text-decoration: none;
+        }
+
+        #wrap {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+        }
+
+        #aside-nav {
+            padding: 50px;
+            width: 25%;
+            height: 100vh;
+            background-color: dimgray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+
+            /* 배경 이미지 첨부*/
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_960_720.jpg");
+            background-size: cover;
+            background-position: -80px;
+
+            /* 고정 설정*/
+            position: fixed;
+            z-index: 1;
+        }
+
+        #aside-nav > div > h1 {
+            padding: 30px 0;
+            width: 100%;
+            text-align: center;
+            font-size: 40px;
+            color: #fff;
+        }
+
+        #aside-nav > div > h2 {
+            padding: 5px 0;
+            width: 100%;
+            text-align: center;
+            font-size: 20px;
+            color: #d4d4d4;
+        }
+
+        .category {
+            height: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .category > li > button {
+            background-color: #fff;
+            width: 200px;
+            height: 50px;
+            font-size: 19px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+
+            /*버튼설정*/
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .category > li > button:hover {
+            background-color: white;
+            color: black;
+            /*마우스 올릴 시 손가락모양 나오게하기*/
+            cursor: pointer;
+        }
+
+        /*질문하기 버튼 추가*/
+        #aside-nav > button {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        #aside-nav > button:hover {
+            background-color: white;
+            color: black;
+            cursor: pointer;
+        }
+
+        #write-btn {
+            background-color: #fff;
+            width: 200px;
+            height: 50px;
+            font-size: 19px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /*로그인 버튼*/
+        .bot-btn {
+            width: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            height: 50px;
+        }
+
+        #btn {
+            border: none;
+            width: 50%;
+
+        }
+
+        .login-out {
+            width: 100%;
+            height: 50px;
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+
+        .login-out:hover {
+            box-shadow: 0 0 5px #fff;
+        }
+
+        .page-btn {
+            width: 35%;
+            height: 50px;
+            border-radius: 0;
+
+        }
+
+        .page-btn > button {
+            margin-left: 10px;
+            width: 100%;
+            height: auto;
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+
+        button > i {
+            color: #fff;
+        }
+
+        .page-btn > button:hover {
+            box-shadow: 0 0 5px #fff;
+        }
+
+        main {
+            /*위치 설정 (fixed와 세트)*/
+            position: absolute;
+            left: 25%;
+
+            width: 70%;
+            height: 90vh;
+            margin: 50px;
+            padding: 50px;
+            /*background-color: dimgray;*/
+            border-radius: 10px;
+        }
+
+
+        main {
+            /*위치 설정 (fixed와 세트)*/
+            position: absolute;
+            left: 500px;
+        {#max-width: 95%;#} width: 65%;
+            margin: 50px;
+            padding: 50px;
+            /*background-color: dimgray;*/
+            border-radius: 10px;
+        }
+
+        main > div {
+            padding: 20px;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        body {
+            background-color: #222;
+        }
+
+        /*글영역*/
+        .board {
+            background-color: none;
+            padding: 30px;
+            box-shadow: 0px 0px 4px rgba(500, 500, 500, 0.5);
+            margin-bottom: 70px;
+            /*padding: 30px;*/
+        }
+
+        .board > #board-title {
+            margin-bottom: 10px;
+            color: #d4d4d4;
+        }
+
+        .board > h3 {
+            margin-bottom: 20px;
+            color: cornflowerblue;
+        }
+
+        .board > h4 {
+            margin-bottom: 40px;
+            color: grey;
+        }
+
+        .board > h4 > span {
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 7px;
+            color: grey;
+        }
+
+        .board-btn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: right;
+            padding: 0px;
+        }
+
+        .board-btn > button {
+            margin-left: 10px;
+            width: 10%;
+            height: 50px;
+            border-radius: 3px;
+            border: none;
+            background-color: #555;
+            color: #d4d4d4;
+            cursor: pointer;
+            box-shadow: 0px 0px 4px #555;
+            font-size: 15px;
+        }
+
+        .board-btn > button:hover {
+            background-color: cornflowerblue;
+            color: #222;
+            box-shadow: 0px 0px 4px cornflowerblue;
+        }
+
+        .board > img {
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        {#게시글 글내용 폰트크기 조절#}
+        .board > p {
+            font-size: 18px;
+            color: #d4d4d4;
+        }
+
+        /*답변창*/
+        .comment-write {
+            padding: 0;
+            /*box-shadow: 0px 0px 5px 0px grey;*/
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        /*답변창 쓰는곳*/
+        .comment-write > #comment {
+            width: 90%;
+            height: 80px;
+            border: none;
+            box-shadow: 0px 0px 4px rgba(500, 500, 500, 0.5);
+            border-radius: 0px;
+            background-color: transparent;
+            padding-left: 20px;
+        }
+
+        /*답변창 placeholder 왼쪽여백 주기*/
+        .comment-write > #comment::placeholder {
+            padding-left: 20px;
+
+
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .comment-write > button {
+            width: 20%;
+            height: 80px;
+            border-radius: 0px;
+            border: none;
+            background-color: #555;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0px 0px 4px #555;
+        }
+
+        .comment-write > button:hover {
+            background-color: cornflowerblue;
+            color: #222;
+            box-shadow: 0px 0px 4px cornflowerblue;
+        }
+
+        #comment:focus {
+            background-color: #333;
+            color: white;
+            font-size: 15px;
+        }
+
+        {#답변 리스트#}
+        #comment-list {
+            padding: 10px;
+        }
+
+        .comment-wrap {
+            background-color: #333;
+        {#border: 1px solid grey;#} height: 85px;
+            padding: 20px;
+        {#border-radius: 5px;#} box-shadow: 0px 0px 4px #333;
+
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .comment-wrap > button {
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            border: none;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .comment-wrap > .comment > .name {
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #E5DA93;
+        }
+
+        .comment-wrap > .comment > p {
+            font-size: 15px;
+            color: #d4d4d4;
+        }
+
+        .comment-wrap > .comment > .name > span {
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 7px;
+            color: grey;
+        }
+
+        .like-num {
+            margin-left: 7px;
+            margin-right: 15px;
+        }
+
+    </style>
+    <script
+            src="https://kit.fontawesome.com/a991ae6b9e.js"
+            crossorigin="anonymous"
+    ></script>
+
+    <script>
+        // 로그인
+        function login() {
+            $.ajax({
+                type: "POST",
+                url: "/api/login",
+                data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                        // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                        $.cookie('mytoken', response['token']);
+
+                        alert('로그인 완료!')
+                        window.location.href = '/'
+                    } else {
+                        // 로그인이 안되면 에러메시지를 띄웁니다.
+                        alert(response['msg'])
+                    }
+                }
+            })
+        }
+
+        let id = '{{ id }}'
+
+        // 답변 등록하기
+        function post_comment() {
+            let comment = $('#comment').val()
+            // 시간
+            let today = new Date().toISOString()
+            if (comment == "") {
+                alert('답변을 입력하세요!')
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/comment_post",
+                    data: {comment_give: comment, board_id_give: id, date_give: today},
+                    success: function (response) {
+                        alert(response["msg"])
+                        window.location.reload()
+                    }
+                });
+            }
+        }
+
+        function to_home() {
+            window.location.href = '/'
+        }
+
+        // 삭제하기
+        function delete_board() {
+            let check = confirm("삭제 하시겠습니까?")
+
+            if (check == true) {
+                $.ajax({
+                    type: "POST",
+                    url: "/delete_board",
+                    data: {board_id_give: id},
+                    success: function (response) {
+
+                        if (response['result'] == 'success') {
+                            alert('삭제되었습니다.')
+                            window.location.href = '/'
+                        } else {
+                            alert('삭제 권한이 없습니다.')
+                        }
+
+                    }
+                });
+            }
+        }
+
+        // 추천 기능
+        function toggle_like(comment_id) {
+            $('#like').removeClass('fa-regular fa-thumbs-up fa-xl')
+            $('#like').addClass('fa-solid fa-thumbs-up fa-xl')
+        }
+
+        // 엔터 이벤트
+        function enter() {
+            if (event.keyCode == 13) {
+                post_comment()
+            }
+        }
+
+        // 시간 함수
+        function time2str(date) {
+            let today = new Date()
+            let time = (today - date) / 1000 / 60  // 분
+
+            if (time < 60) {
+                return parseInt(time) + "분 전"
+            }
+            time = time / 60  // 시간
+            if (time < 24) {
+                return parseInt(time) + "시간 전"
+            }
+            time = time / 24
+            if (time < 7) {
+                return parseInt(time) + "일 전"
+            }
+            return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+        }
+
+
+    </script>
+</head>
+<body>
+<div id="wrap">
+    <header>{% include 'header.html' %}</header>
+
+    <main>
+        <!-- 글영역-->
+        <div class="board">
+            <h3 id="board-category">{{ detail_board.category }}</h3>
+            <h2 id="board-title">{{ detail_board.title }}</h2>
+
+            <h4 id="board-nickname">{{ detail_board.usernick }}</h4>
+            <!-- 이미지 공간-->
+            <img src="https://velog.velcdn.com/images/yuns8708/post/6d7c0995-fa83-4f87-9196-65de4d495601/image.png">
+            <p id="board-content">{{ detail_board.content }}</p>
+
+            <!-- 글영역 버튼-->
+            <div class="board-btn">
+                {#                <button>수정하기</button>#}
+                <button id="delete-btn" onclick="delete_board()">삭제하기</button>
+            </div>
+        </div>
+
+
+        <!-- 답변 입력창-->
+        <div class="comment-write">
+            <input id="comment" type="text" onfocus="this.placeholder = ''" placeholder="답변을 입력하세요" onkeypress="enter()">
+            <button onclick="post_comment()">확인</button>
+        </div>
+
+        <div id="comment-list">
+            <!-- 답변 리스트-->
+            {% for comment in comments %}
+                {% if comment['board_id'] == id %}
+                    <div class="comment-wrap">
+                        <div class="comment">
+                            <p class="name">{{ comment['usernick'] }}</p>
+                            {#                            <p class="name">{{ comment['usernick'] }}<span>10분 전</span></p>#}
+                            <p>{{ comment['comment'] }}</p>
+                        </div>
+                        <button>
+                            <i id="like" class="fa-regular fa-thumbs-up fa-xl --fa-primary-color"
+                               style="--fa-primary-color: gold;" )></i>
+                            <span class="like-num">0</span>
+                        </button>
+                        {#                        <button><i class="fa-solid fa-thumbs-up fa-xl"></i></button>#}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+
+    </main>
+</div>
+</body>
+</html>

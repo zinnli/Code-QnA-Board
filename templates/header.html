@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>코드 질문 게시판</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
 
     <style>
         * {
@@ -182,120 +186,82 @@
         }
 
 
-        body {
-            background-color: #222;
+        .is-hidden {
+            display: none !important;
         }
 
-        main {
-            /*위치 설정 (fixed와 세트)*/
-            position: absolute;
-            left: 500px;
-        {#max-width: 95%;#} width: 65% !important;
-            margin: 10px 50px;
-            padding: 50px;
-        {#background-color: dimgray;#} border-radius: 50px;
-            background-color: #222 !important;
-        }
-
-        main > div {
-            padding: 20px;
-            width: 100%;
-        {#background-color: #fff;#}
-        }
-
-        #board_title {
-            font-size: 20px;
-            color: #d4d4d4;
-            text-align: center;
-        }
-
-        .mainList {
-        {#background-color: white;
-        width: 80vh;
-        height:100%;
-        margin: 10px auto 10px auto;
-        display: flex;
-        align-items: center;
-        position: center;#}
-
-        }
-
-        .mainList {
-            padding: 0px;
-        }
-
-        main > div > a > div {
-        {#background-color: #333;#} width: 100%;
-        {#height: 90px;#} margin: 30px auto;
-            display: flex;
-            align-items: center;
-            position: center;
-
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            justify-content: left;
-
-            padding: 25px;
-
-            box-shadow: 0px 0px 4px rgba(500, 500, 500, 0.5);
-        {#border-style: solid;#}
-
-        }
-
-        main > div > a > div:hover {
-            box-shadow: 0px 0px 4px rgba(500, 500, 500, 0.9);
-        }
-
-        main > div > a > div > h3 {
-            font-size: 14px;
-            color: #d4d4d4;
-            margin-bottom: 7px;
-            color: cornflowerblue;
-        }
-
-        main > div > a > div > h2 {
-            color: #d4d4d4;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        main > div > a > div > h4 {
-            color: gray;
-            font-size: 14px;
-            margin-bottom: 10px;
+        * {
+            font-family: 'Nanum Gothic', sans-serif;
         }
 
     </style>
+
     <script
             src="https://kit.fontawesome.com/a991ae6b9e.js"
             crossorigin="anonymous"
     ></script>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
     <script>
 
+        function question() {
+            let cookie = document.cookie;
+            if (cookie == 0) {
+                alert("로그인하세요")
+            } else {
+                window.location.href = '/write'
+            }
+        }
+
+        $(document).ready(function login() {
+            $('#login_out').empty()
+            let cookie = document.cookie;
+            if (cookie == 0) {
+                let temp_html = `<button class='login-out' onclick="location.href='/login'">로그인</button>`
+                $('#btn').append(temp_html)
+            } else {
+                let temp_html = `<button class='login-out' onclick="logout()">로그아웃</button>`
+                $('#btn').append(temp_html)
+            }
+        });
+
+        function logout() {
+            $.removeCookie('mytoken', {path: '/'})
+            alert('로그아웃!')
+            window.location.href = "/login"
+        }
     </script>
 </head>
 <body>
-<div id="wrap">
-    <header>{% include 'header.html' %}</header>
-    <main>
-        <div>
-            <p id="board_title">코드 질문을 남겨보세요!</p>
+<nav id="aside-nav">
+    <div>
+        <h1>code_how( )</h1>
+        <h2>- Code QnA Board -</h2>
+    </div>
+    <ul class="category">
+        <li>
+            <button type="button" id="html-css" onclick="location.href='/html_CSS'">HTML / CSS</button>
+        </li>
+        <li>
+            <button type="button" id="js" onclick="location.href='/Javascript'">Java Script</button>
+        </li>
+        <li>
+            <button type="button" id="py" onclick="location.href='/Python'">Python</button>
+        </li>
+    </ul>
+    <button type="button" id="write-btn" onclick="question()">질문하기</button>
+    <div class="bot-btn">
+        <div id="btn"></div>
+        <div class="bot-btn page-btn">
+            <button type="button" id="home-btn" onclick="location.href='/';"><i
+                    class="fa-sharp fa-solid fa-house"></i></button>
+            <button type="button" id="back-btn" onclick="window.history.back()"><i
+                    class="fa-solid fa-arrow-left"></i></button>
         </div>
-        <div class="mainList" id="mainList">
-            {#            {% for list in QnA_list %}#}
-            {#                <div><a href="/detail/{{ id }}">{{ list.title }}</a></div>#}
-            {#            {% endfor %}#}
-            {% for board in boards %}
-                <a href="/detail/{{ board._id }}">
-                    <div>
-                        <h3>{{ board.category }}</h3>
-                        <h2>{{ board.title }} </h2>
-                        <h4>post by {{ board.usernick }}</h4>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
-    </main>
-</div>
+    </div>
+</nav>
 </body>
 </html>

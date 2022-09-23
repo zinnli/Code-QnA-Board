@@ -1,0 +1,187 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    color: #222;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+li, ul, a{
+    list-style: none;
+    text-decoration: none;
+}
+#wrap{
+    width:100%;
+    height: 100vh;
+    display: flex;
+}
+#aside-nav{
+    padding: 50px;
+    width: 25%;
+    height: 100vh;
+    background-color: dimgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    /* 배경 이미지 첨부*/
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_960_720.jpg");
+    background-size: cover;
+    background-position: -80px;
+
+    /* 고정 설정*/
+    position: fixed;
+    z-index: 1;
+}
+#aside-nav > div > h1{
+    padding: 30px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    color:#fff;
+}
+#aside-nav > div > h2{
+    padding: 5px 0;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color:#d4d4d4;
+}
+.category{
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.category > li > button{
+    background-color: #fff;
+    width: 200px;
+    height: 50px;
+    font-size:19px;
+    border:none;
+    border-radius: 5px;
+    font-weight: 500;
+
+    /*버튼설정*/
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+.category > li > button:hover {
+    background-color: white;
+    color: black;
+    /*마우스 올릴 시 손가락모양 나오게하기*/
+    cursor: pointer;
+}
+/*질문하기 버튼 추가*/
+#aside-nav > button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+#aside-nav>button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+#write-btn{
+    background-color: #fff;
+    width: 200px;
+    height: 50px;
+    font-size:19px;
+    border:none;
+    border-radius: 5px;
+}
+
+/*로그인 버튼*/
+.bot-btn{
+    width:100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    height: 50px;
+}
+
+#btn {
+    border: none;
+    width: 50%;
+
+}
+.login-out{
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    color:#fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+.login-out:hover{
+    box-shadow: 0 0 5px #fff;
+}
+
+.page-btn{
+    width:35%;
+    height: 50px;
+    border-radius: 0;
+
+}
+.page-btn > button{
+    margin-left: 10px;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+    color:#fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+button > i {
+    color: #fff;
+}
+.page-btn > button:hover{
+    box-shadow: 0 0 5px #fff;
+}
+
+main{
+    /*위치 설정 (fixed와 세트)*/
+    position: absolute;
+    left: 25%;
+
+    width: 70%;
+    height:90vh;
+    margin: 50px;
+    padding: 50px;
+    /*background-color: dimgray;*/
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

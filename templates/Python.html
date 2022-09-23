@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -259,40 +260,37 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
+
         main > div > a > div > h4 {
             color: gray;
             font-size: 14px;
             margin-bottom: 10px;
         }
-
     </style>
     <script
             src="https://kit.fontawesome.com/a991ae6b9e.js"
             crossorigin="anonymous"
     ></script>
-    <script>
 
-    </script>
 </head>
 <body>
 <div id="wrap">
     <header>{% include 'header.html' %}</header>
     <main>
         <div>
-            <p id="board_title">코드 질문을 남겨보세요!</p>
+            <p id="board_title">Python 질문을 남겨보세요!</p>
         </div>
         <div class="mainList" id="mainList">
-            {#            {% for list in QnA_list %}#}
-            {#                <div><a href="/detail/{{ id }}">{{ list.title }}</a></div>#}
-            {#            {% endfor %}#}
             {% for board in boards %}
-                <a href="/detail/{{ board._id }}">
-                    <div>
-                        <h3>{{ board.category }}</h3>
-                        <h2>{{ board.title }} </h2>
-                        <h4>post by {{ board.usernick }}</h4>
-                    </div>
-                </a>
+                {% if board.category=="Python" %}
+                    <a href="/detail/{{ board._id }}">
+                        <div>
+                            <h3>{{ board.category }}</h3>
+                            <h2>{{ board.title }} </h2>
+                            <h4>post by {{ board.usernick }}</h4>
+                        </div>
+                    </a>
+                {% endif %}
             {% endfor %}
         </div>
     </main>
